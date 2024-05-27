@@ -1,0 +1,68 @@
+{
+    "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
+    "name": "OpMon",
+    "id": "react-opmon-datasource",
+    "type": "datasource",
+    "annotations": true,
+    "alerting": false,
+    "backend": false,
+    "metrics": true,
+    "logs": true,
+    "info": {
+        "author": {
+            "name": "OpServices SA"
+        },
+        "description": "OpMon datasource",
+        "keywords": [
+            "opmon",
+            "datasource"
+        ],
+        "logos": {
+            "small": "img/logo.png",
+            "large": "img/logo.png"
+        },
+        "links": [
+            {
+                "name": "GitHub",
+                "url": "https://github.com/opservices/opmon-grafana-app"
+            },
+            {
+                "name": "MIT License",
+                "url": "https://github.com/opservices/opmon-grafana-app/blob/master/LICENSE"
+            }
+        ],
+        "version": "%VERSION%",
+        "updated": "%TODAY%"
+    },
+    "includes": [
+        {
+            "type": "dashboard",
+            "name": "OpMon Tatical Overview",
+            "path": "dashboards/1-opmon-tactical-overview-main.json"
+        },
+        {
+            "type": "dashboard",
+            "name": "OpMon Tatical Overview Hostgroups",
+            "path": "dashboards/2-opmon-tactical-overview-hostgroups.json"
+        },
+        {
+            "type": "dashboard",
+            "name": "OpMon Tatical Overview Servicegroups",
+            "path": "dashboards/3-opmon-tactical-overview-servicegroups.json"
+        },
+        {
+            "type": "dashboard",
+            "name": "OpMon Geolocation Overview V2",
+            "path": "dashboards/4-opmon-geolocation-overview-v2.json"
+        },
+        {
+            "type": "dashboard",
+            "name": "OpMon Geolocation Overview by Hostgroups",
+            "path": "dashboards/5-opmon-geolocation-overview-by-hostgroup-v2.json"
+        }
+    ],
+    "dependencies": {
+        "grafanaDependency": ">=9.0.0",
+        "plugins": []
+    }
+}
