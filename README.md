@@ -15,6 +15,7 @@ git clone https://github.com/opservices/opmon-datasource.git
 After that, go to opmon-datasource and run:
 
 yarn install
+
 yarn run build
 
 > Note that the Grafana must be running in development mode, since this is a unassigned plugin.
