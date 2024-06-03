@@ -24,43 +24,17 @@
         "links": [
             {
                 "name": "GitHub",
-                "url": "https://github.com/opservices/opmon-grafana-app"
+                "url": "https://github.com/opservices/opmon-datasource"
             },
             {
                 "name": "MIT License",
-                "url": "https://github.com/opservices/opmon-grafana-app/blob/master/LICENSE"
+                "url": "https://github.com/opservices/opmon-datasource/blob/master/LICENSE"
             }
         ],
         "version": "%VERSION%",
         "updated": "%TODAY%"
     },
-    "includes": [
-        {
-            "type": "dashboard",
-            "name": "OpMon Tatical Overview",
-            "path": "dashboards/1-opmon-tactical-overview-main.json"
-        },
-        {
-            "type": "dashboard",
-            "name": "OpMon Tatical Overview Hostgroups",
-            "path": "dashboards/2-opmon-tactical-overview-hostgroups.json"
-        },
-        {
-            "type": "dashboard",
-            "name": "OpMon Tatical Overview Servicegroups",
-            "path": "dashboards/3-opmon-tactical-overview-servicegroups.json"
-        },
-        {
-            "type": "dashboard",
-            "name": "OpMon Geolocation Overview V2",
-            "path": "dashboards/4-opmon-geolocation-overview-v2.json"
-        },
-        {
-            "type": "dashboard",
-            "name": "OpMon Geolocation Overview by Hostgroups",
-            "path": "dashboards/5-opmon-geolocation-overview-by-hostgroup-v2.json"
-        }
-    ],
+    "includes": [],
     "dependencies": {
         "grafanaDependency": ">=9.0.0",
         "plugins": []
