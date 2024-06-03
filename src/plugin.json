@@ -1,7 +1,7 @@
 {
     "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
     "name": "OpMon",
-    "id": "react-opmon-datasource",
+    "id": "opservicesti-opmon-datasource",
     "type": "datasource",
     "annotations": true,
     "alerting": false,
