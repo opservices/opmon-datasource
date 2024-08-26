@@ -47,7 +47,7 @@ export class OpmonDataSource extends DataSourceApi<OpmonQuery, GenericOptions> {
     this.defaultEditorMode = instanceSettings.jsonData?.defaultEditorMode ?? 'code';
     this.url = `${
       instanceSettings.url ?? window.location.origin
-    }/opmon/seagull/www/index.php/wsconnector/action/datasource?mod=OPVIEW&shareduid=W1ksbu9/9O95NGvyrgbVYe6yEE2LcgQdivS5PHhiVe0=&q=`;
+    }/opmon/seagull/www/index.php/wsconnector/action/datasource?q=`;
 
     this.withCredentials = instanceSettings.withCredentials !== undefined;
     this.headers = { 'Content-Type': 'application/json' };

@@ -26,7 +26,7 @@ export const resultFormatOptions: SelectableValue[] = [
 ];
 
 export const defaultURL =
-  '/opmon/seagull/www/index.php/wsconnector/action/datasource?mod=OPVIEW&shareduid=W1ksbu9/9O95NGvyrgbVYe6yEE2LcgQdivS5PHhiVe0=&q=';
+  '/opmon/seagull/www/index.php/wsconnector/action/datasource?q=';
 
 export const HttpHeaders: Headers = new Headers();
 
