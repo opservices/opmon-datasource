@@ -58,6 +58,7 @@ export class OpmonDataSource extends DataSourceApi<OpmonQuery, GenericOptions> {
 
   query(options: QueryRequest): Promise<DataQueryResponse> {
     const request = this.processTargets(options);
+
     request.targets = request.targets.filter(
       (target) =>
         !target.hide &&
@@ -86,6 +87,30 @@ export class OpmonDataSource extends DataSourceApi<OpmonQuery, GenericOptions> {
         target.metric = '';
       }
 
+      if (target.host && typeof target.host === 'string' && /^\$.*/.test(target.host)) {
+        target.host = getTemplateSrv().replace(target.host.toString(), options.scopedVars, 'regex');
+      }
+
+      if (target.hostgroup && typeof target.hostgroup === 'string' && /^\$.*/.test(target.hostgroup)) {
+        target.hostgroup = getTemplateSrv().replace(target.hostgroup.toString(), options.scopedVars, 'regex');
+      }
+
+      if (target.service && typeof target.service === 'string' && /^\$.*/.test(target.service)) {
+        target.service = getTemplateSrv().replace(target.service.toString(), options.scopedVars, 'regex');
+      }
+
+      if (target.servicegroup && typeof target.servicegroup === 'string' && /^\$.*/.test(target.servicegroup)) {
+        target.servicegroup = getTemplateSrv().replace(target.servicegroup.toString(), options.scopedVars, 'regex');
+      }
+
+      if (target.serviceCatalog && typeof target.serviceCatalog === 'string' && /^\$.*/.test(target.serviceCatalog)) {
+        target.serviceCatalog = getTemplateSrv().replace(target.serviceCatalog.toString(), options.scopedVars, 'regex');
+      }
+
+      if (target.metric && typeof target.metric === 'string' && /^\$.*/.test(target.metric)) {
+        target.metric = getTemplateSrv().replace(target.metric.toString(), options.scopedVars, 'regex');
+      }
+      
       target.host = this._fixup_regex(target.host);
       target.service = this._fixup_regex(target.service);
       target.metric = this._fixup_regex(target.metric);
@@ -166,33 +191,34 @@ export class OpmonDataSource extends DataSourceApi<OpmonQuery, GenericOptions> {
   }
 
   metricFindQuery(variableQuery: VariableQuery, options?: any, type?: string): Promise<MetricFindValue[]> {
-    const interpolated =
-      variableQuery.format === 'json'
-        ? JSON.parse(getTemplateSrv().replace(variableQuery.query, undefined, 'json'))
-        : {
-            type,
-            target: getTemplateSrv().replace(variableQuery.query, undefined, 'regex'),
-          };
+
+    const tq = getTemplateSrv().replace(variableQuery.toString(), options.scopedVars, 'regex')
 
     const variableQueryData = {
-      payload: interpolated,
+      target: tq,
       range: options?.range,
       rangeRaw: options?.rangeRaw,
     };
 
     return lastValueFrom(
       this.doFetch<BackendDataSourceResponse>({
-        url: `${this.url}/variable`,
+        url: `${this.url}/search`,
         data: variableQueryData,
         method: 'POST',
-      }).pipe(map((response) => this.responseParser.transformMetricFindResponse(response)))
+      }).pipe(
+        map((response) => {
+          return this.responseParser.transformMetricFindResponse(response);
+        })
+      )
     );
+
   }
 
   metricFindData(type: string, options: OpmonQuery, prependVariables: any): Promise<SelectableOption[]> {
     const mapper = this.mapToLabelValue;
     let url;
-    let data = options || {};
+    const objAssign = Object.assign({}, options);
+    let data = objAssign || {};
     if (type === ObjectType.HOST) {
       url = this.url + '/hosts';
     } else if (type === ObjectType.SERVICE) {
@@ -233,25 +259,29 @@ export class OpmonDataSource extends DataSourceApi<OpmonQuery, GenericOptions> {
     return lastValueFrom<SelectableOption[]>(
       this.doFetch(requestOptions).pipe(
         map((response) => {
+          
           const data = mapper(response);
 
           if (isArray(data) && prependVariables) {
-            getTemplateSrv()
-              .getVariables()
-              .forEach((variable) => {
-                data.unshift({
-                  text: '/^$' + variable.name + '$/',
-                  value: '/^$' + variable.name + '$/',
-                });
+            const variables = getTemplateSrv().getVariables();
+            
+            variables.forEach((variable) => {
+              data.unshift({
+                label: '$' + variable.name,
+                value: '$' + variable.name,
               });
+            });
           }
+
           if (type === 'metric') {
             data.unshift({ label: defaultQuery.metric, value: defaultQuery.metric });
           }
+
           return data;
         })
       )
     );
+
   }
 
   _requestOptions(options: BackendSrvRequest) {
@@ -309,8 +339,9 @@ export class OpmonDataSource extends DataSourceApi<OpmonQuery, GenericOptions> {
   processTarget(q: OpmonQuery, scopedVars?: ScopedVars) {
     const query = { ...q };
     if (typeof query.target === 'string') {
-      query.target = getTemplateSrv().replace(query.target.toString(), scopedVars, 'regex');
+      //query.target = getTemplateSrv().replace(query.target.toString(), scopedVars, 'regex');
     }
+
     return query;
   }
 

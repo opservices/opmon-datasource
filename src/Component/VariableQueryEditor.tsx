@@ -9,7 +9,10 @@ interface Props {
 }
 
 export const VariableQueryEditor: React.FC<Props> = ({ onChange, query }) => {
+
   const [variableQuery, setVariableQuery] = useState(query);
+
+
   const saveQuery = () => {
     onChange(variableQuery, `${variableQuery.query}` + `${variableQuery.format === 'json' ? ' (JSON)' : ''}`);
   };
