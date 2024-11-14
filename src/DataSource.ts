@@ -88,27 +88,27 @@ export class OpmonDataSource extends DataSourceApi<OpmonQuery, GenericOptions> {
       }
 
       if (target.host && typeof target.host === 'string' && /^\$.*/.test(target.host)) {
-        target.host = getTemplateSrv().replace(target.host.toString(), options.scopedVars, 'regex');
+        target.host = getTemplateSrv().replace(target.host.toString(), options.scopedVars);
       }
 
       if (target.hostgroup && typeof target.hostgroup === 'string' && /^\$.*/.test(target.hostgroup)) {
-        target.hostgroup = getTemplateSrv().replace(target.hostgroup.toString(), options.scopedVars, 'regex');
+        target.hostgroup = getTemplateSrv().replace(target.hostgroup.toString(), options.scopedVars);
       }
 
       if (target.service && typeof target.service === 'string' && /^\$.*/.test(target.service)) {
-        target.service = getTemplateSrv().replace(target.service.toString(), options.scopedVars, 'regex');
+        target.service = getTemplateSrv().replace(target.service.toString(), options.scopedVars);
       }
 
       if (target.servicegroup && typeof target.servicegroup === 'string' && /^\$.*/.test(target.servicegroup)) {
-        target.servicegroup = getTemplateSrv().replace(target.servicegroup.toString(), options.scopedVars, 'regex');
+        target.servicegroup = getTemplateSrv().replace(target.servicegroup.toString(), options.scopedVars);
       }
 
       if (target.serviceCatalog && typeof target.serviceCatalog === 'string' && /^\$.*/.test(target.serviceCatalog)) {
-        target.serviceCatalog = getTemplateSrv().replace(target.serviceCatalog.toString(), options.scopedVars, 'regex');
+        target.serviceCatalog = getTemplateSrv().replace(target.serviceCatalog.toString(), options.scopedVars);
       }
 
       if (target.metric && typeof target.metric === 'string' && /^\$.*/.test(target.metric)) {
-        target.metric = getTemplateSrv().replace(target.metric.toString(), options.scopedVars, 'regex');
+        target.metric = getTemplateSrv().replace(target.metric.toString(), options.scopedVars);
       }
       
       target.host = this._fixup_regex(target.host);
@@ -192,7 +192,7 @@ export class OpmonDataSource extends DataSourceApi<OpmonQuery, GenericOptions> {
 
   metricFindQuery(variableQuery: VariableQuery, options?: any, type?: string): Promise<MetricFindValue[]> {
 
-    const tq = getTemplateSrv().replace(variableQuery.toString(), options.scopedVars, 'regex')
+    const tq = getTemplateSrv().replace(variableQuery.toString(), options.scopedVars);
 
     const variableQueryData = {
       target: tq,
@@ -339,7 +339,7 @@ export class OpmonDataSource extends DataSourceApi<OpmonQuery, GenericOptions> {
   processTarget(q: OpmonQuery, scopedVars?: ScopedVars) {
     const query = { ...q };
     if (typeof query.target === 'string') {
-      //query.target = getTemplateSrv().replace(query.target.toString(), scopedVars, 'regex');
+      query.target = getTemplateSrv().replace(query.target.toString(), scopedVars);
     }
 
     return query;
